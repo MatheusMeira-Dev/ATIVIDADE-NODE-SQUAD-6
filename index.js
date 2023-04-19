@@ -13,11 +13,15 @@ const { connection, authenticate } = require("./database/database");
 authenticate(connection);
 
 // Definição de Rotas
+const rotaAlunos = require("./routes/alunos");
+const rotaProfessores = require("./routes/professores");
 
 
+app.use(rotaAlunos);
+app.use(rotaProfessores);
 
 // Escuta de eventos
-app.listeners(3000, () => {
+app.listen(3000, () => {
     connection.sync({force: true});
     console.log("Servidor rodando em http://localhost:3000/")
 })
