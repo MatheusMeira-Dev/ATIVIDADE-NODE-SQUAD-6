@@ -6,7 +6,7 @@ const { DataTypes } = require("sequelize");
 const { connection } = require("./database");
 const Turma = require("./turma");
 
-const Professor = connection.define("professores", {
+const Professor = connection.define("professor", {
   // Configurar a coluna 'nome'
   nome: {
     // nome VARCHAR NOT NULL

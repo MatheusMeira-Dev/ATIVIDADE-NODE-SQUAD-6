@@ -1,0 +1,901 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API de Escola Totalmente Funcional",
+      "description": "API para fins educacionais, para crição de Banco da Escola contento Alunos, Professores e Turmas (Versão PRO MAX TURBO PLUS)",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000"
+      }
+    ],
+    "paths": {
+      "/professores": {
+        "get": {
+            "tags": [
+                "Professores"
+            ],
+          "summary": "Obter todos os Professores",
+          "description": "Retorna uma lista de todos os Professores registrados",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Professor"
+                          },
+                          "email": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Endereço de e-mail do Professor"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "telefone do Professor"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "post": {
+            "tags": [
+                "Professores"
+            ],
+            "summary": "Cria um novo Professor",
+            "description": "Cria um novo Professor colocando suas informações no Body json",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string",
+                        "null": false,
+                        "description": "Nome do Professor"
+                      },
+                      "email": {
+                        "type": "string",
+                        "unique": true,
+                        "null": false,
+                        "description": "Endereço de e-mail do Professor"
+                      },
+                      "telefone": {
+                        "type": "string",
+                        "null": false,
+                        "description": "telefone do Professor"
+                      }
+                    },
+                    "example": 
+                        {
+                            "nome": "Jose Almir",
+                            "email": "batata@mail.com",
+                            "telefone": "14134141341"
+                        }
+                    
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "criado com sucesso"
+              },
+              "400": {
+                "description": "Requisição inválida"
+              },
+              "500": {
+                "description": "Erro interno do servidor"
+              }
+            }
+          }
+      },
+      "/professores/{id}": {
+        "get": {
+            "tags": [
+                "Professores"
+            ],
+          "summary": "Retorna um Professor pelo seu ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do Professor",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Retorna Apenas um Professor registrado, utilizando o ID do parametro de Rota",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Professor"
+                          },
+                          "email": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Endereço de e-mail do Professor"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "telefone do Professor"
+                          }
+                    },
+                    "example": {
+                        "rota": "http://localhost:3000/professores/1"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+            "tags": [
+                "Professores"
+            ],
+          "summary": "Deleta um Professor pelo seu ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do Professor",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Deleta Apenas um Professor registrado, utilizando o ID do parametro de Rota, Se existir dependentes (Turma, Alunos) serão deletados juntos",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Professor"
+                          },
+                          "email": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Endereço de e-mail do Professor"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "telefone do Professor"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+            "tags": [
+                "Professores"
+            ],
+            "summary": "Atualiza um Professor Selecionado pelo ID",
+            "description": "Atualiza as informações do Professor Selecionado pelo Parametro de rota ID",
+            "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID do Professor",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "nome": {
+                        "type": "string",
+                        "null": false,
+                        "description": "Nome do Professor"
+                      },
+                      "email": {
+                        "type": "string",
+                        "unique": true,
+                        "null": false,
+                        "description": "Endereço de e-mail do Professor"
+                      },
+                      "telefone": {
+                        "type": "string",
+                        "null": false,
+                        "description": "telefone do Professor"
+                      }
+                    },
+                    "example": 
+                        {
+                            "nome": "Gabriel Braga",
+                            "email": "batatinha@mail.com",
+                            "telefone": "14134141341"
+                        }
+                    
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Atualizado com sucesso"
+              },
+              "400": {
+                "description": "Requisição inválida"
+              },
+              "500": {
+                "description": "Erro interno do servidor"
+              }
+            }
+          }
+      },
+      "/turmas": {
+        "get": {
+            "tags": [
+                "Turmas"
+            ],
+          "summary": "Obter todas as Turmas!",
+          "description": "Retorna uma lista de todas as Turmas registradas",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome da Turma"
+                          },
+                          "materia": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Materia da Turma"
+                          },
+                          "periodo": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Periodo da Turma"
+                          },
+                          "professorId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id do Professor dessa turma"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "post": {
+            "tags": [
+                "Turmas"
+            ],
+            "summary": "Criar uma nova Turma",
+            "description": "Cria uma nova Turma colocando as informações no Body json (A Turma só será criada se receber o ID de um professor existente)",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome da Turma"
+                          },
+                          "materia": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Materia da Turma"
+                          },
+                          "periodo": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Periodo da Turma"
+                          },
+                          "professorId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id do Professor dessa turma"
+                          }
+                    },
+                    "example": 
+                        {
+                            "nome": "Batata",
+                            "materia": "Progamação",
+                            "periodo": "integral",
+                            "professorId": "1"
+                        }
+                    
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "criado com sucesso"
+              },
+              "400": {
+                "description": "Requisição inválida"
+              },
+              "500": {
+                "description": "Erro interno do servidor"
+              }
+            }
+          }
+      },
+      "/turmas/{id}": {
+        "get": {
+            "tags": [
+                "Turmas"
+            ],
+          "summary": "Obter Uma turma pelo ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID da Turma",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Retorna Apenas uma turma registrada, utilizando o ID do parametro de Rota",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome da Turma"
+                          },
+                          "materia": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Materia da Turma"
+                          },
+                          "periodo": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Periodo da Turma"
+                          },
+                          "professorId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id do Professor dessa turma"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+            "tags": [
+                "Turmas"
+            ],
+          "summary": "Deleta uma Turma pelo seu ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID da Turma",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Deleta Apenas uma Turma registrada, utilizando o ID do parametro de Rota, Se existir dependentes (Alunos) serão deletados juntos",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome da Turma"
+                          },
+                          "materia": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Materia da Turma"
+                          },
+                          "periodo": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Periodo da Turma"
+                          },
+                          "professorId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id do Professor dessa turma"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+            "tags": [
+                "Turmas"
+            ],
+            "summary": "Atualiza uma Turma Selecionado pelo ID",
+            
+            "description": "Atualiza as informações da Turma Selecionado pelo Parametro de rota ID",
+            "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID da Turma",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome da Turma"
+                          },
+                          "materia": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Materia da Turma"
+                          },
+                          "periodo": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Periodo da Turma"
+                          }
+                    },
+                    "example": 
+                        {
+                            "nome": "Turma ant batata",
+                            "materia": "Progamação",
+                            "periodo": "Madrugada"
+                        }
+                    
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Atualizado com sucesso"
+              },
+              "400": {
+                "description": "Requisição inválida"
+              },
+              "500": {
+                "description": "Erro interno do servidor"
+              }
+            }
+          }
+      },
+      "/alunos": {
+        "get": {
+            "tags": [
+                "Alunos"
+            ],
+          "summary": "Obter todos os Alunos!",
+          "description": "Retorna uma lista de todos os Alunos registrados",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Aluno"
+                          },
+                          "idade": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Idade do Aluno"
+                          },
+                          "matricula": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Matricula do Aluno"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Telefone do Aluno"
+                          },
+                          "dataNasc": {
+                            "type": "date",
+                            "null": false,
+                            "description": "Data de nascimento do Aluno"
+                          },
+                          "turmaId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id da Turma desse Aluno"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "post": {
+            "tags": [
+                "Alunos"
+            ],
+            "summary": "Criar um novo Aluno",
+            "description": "Cria um novo Aluno colocando as informações no Body json (O Aluno só será criada se receber o ID de uma Turma existente)",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Aluno"
+                          },
+                          "idade": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Idade do Aluno"
+                          },
+                          "matricula": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Matricula do Aluno"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Telefone do Aluno"
+                          },
+                          "dataNasc": {
+                            "type": "date",
+                            "null": false,
+                            "description": "Data de nascimento do Aluno"
+                          },
+                          "turmaId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id da Turma desse Aluno"
+                          }
+                    },
+                    "example": 
+                        {
+                            "nome": "Erivelton",
+                            "idade": "19",
+                            "matricula": "976761",
+                            "telefone": "19173817131",
+                            "dataNasc": "2004-07-25",
+                            "turmaId": "1"
+                        }
+                    
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "criado com sucesso"
+              },
+              "400": {
+                "description": "Requisição inválida"
+              },
+              "500": {
+                "description": "Erro interno do servidor"
+              }
+            }
+          }
+      },
+      "/alunos/{id}": {
+        "get": {
+            "tags": [
+                "Alunos"
+            ],
+          "summary": "Obter Um Aluno pelo ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do Aluno",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Retorna um ALuno Registrado, usando o Parametro de rota ID",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Aluno"
+                          },
+                          "idade": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Idade do Aluno"
+                          },
+                          "matricula": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Matricula do Aluno"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Telefone do Aluno"
+                          },
+                          "dataNasc": {
+                            "type": "date",
+                            "null": false,
+                            "description": "Data de nascimento do Aluno"
+                          },
+                          "turmaId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id da Turma desse Aluno"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "delete": {
+            "tags": [
+                "Alunos"
+            ],
+          "summary": "Deletar Um Aluno pelo ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "ID do Aluno",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "description": "Deleta um ALuno Registrado, usando o Parametro de rota ID",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Aluno"
+                          },
+                          "idade": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Idade do Aluno"
+                          },
+                          "matricula": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Matricula do Aluno"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Telefone do Aluno"
+                          },
+                          "dataNasc": {
+                            "type": "date",
+                            "null": false,
+                            "description": "Data de nascimento do Aluno"
+                          },
+                          "turmaId": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Id da Turma desse Aluno"
+                          }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor"
+            }
+          }
+        },
+        "put": {
+            "tags": [
+                "Alunos"
+            ],
+            "summary": "Atualiza um Aluno Selecionado pelo ID",
+            
+            "description": "Atualiza as informações de um Aluno Selecionado pelo Parametro de rota ID",
+            "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "description": "ID do Aluno",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                        "nome": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Nome do Aluno"
+                          },
+                          "idade": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Idade do Aluno"
+                          },
+                          "matricula": {
+                            "type": "string",
+                            "unique": true,
+                            "null": false,
+                            "description": "Matricula do Aluno"
+                          },
+                          "telefone": {
+                            "type": "string",
+                            "null": false,
+                            "description": "Telefone do Aluno"
+                          },
+                          "dataNasc": {
+                            "type": "date",
+                            "null": false,
+                            "description": "Data de nascimento do Aluno"
+                          }
+                    },
+                    "example": 
+                    {
+                        "nome": "Ernesto",
+                        "idade": "16",
+                        "matricula": "9778909",
+                        "telefone": "98717137131",
+                        "dataNasc": "2007-06-14"
+                    }
+                    
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Atualizado com sucesso"
+              },
+              "400": {
+                "description": "Requisição inválida"
+              },
+              "500": {
+                "description": "Erro interno do servidor"
+              }
+            }
+          }
+      }
+    }
+    
+  }

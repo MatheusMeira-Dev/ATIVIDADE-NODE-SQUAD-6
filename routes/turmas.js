@@ -1,3 +1,4 @@
+const Professor = require("../database/professor");
 const Turma = require("../database/turma")
 
 const {Router} = require("express");
@@ -6,11 +7,16 @@ const router = Router();
 
 // Add Turma
 router.post("/turmas", async (req, res) => {
-    const {nome, materia, periodo} = req.body
+    const {nome, materia, periodo, professorId } = req.body
 
     try {
-        const novo = await Turma.create ({nome, materia, periodo});
-        res.status(201).json(novo);
+        const professor = await Professor.findOne({ where: { id: professorId }})
+        if (professor) {
+            const novo = await Turma.create ({nome, materia, periodo, professorId});
+            res.status(201).json(novo);
+        } else {
+            res.status(404).json({ message: "Professor não encontrado!" });
+        }
     }
     catch (err) {
         console.log(err);

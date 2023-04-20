@@ -1,5 +1,6 @@
 const Aluno = require("../database/aluno")
-const { Router } = require("express")
+const { Router } = require("express");
+const Turma = require("../database/turma");
 
 const router = Router();
 
@@ -31,14 +32,17 @@ router.get("/alunos/:id", async (req, res) => {
 
 router.post("/alunos", async (req, res) => {
 
-    const { nome, idade, matricula, telefone, dataNasc } = req.body;
+    const { nome, idade, matricula, telefone, dataNasc, turmaId } = req.body;
 
     try {
-        const novo = await Aluno.create(
-            { nome, idade, matricula, telefone, dataNasc })
-        res.status(201).json(novo);
-        
-
+        const turma = await Turma.findOne({ where: { id: turmaId }})
+        if (turma) {
+            const novo = await Aluno.create(
+                { nome, idade, matricula, telefone, dataNasc, turmaId })
+            res.status(201).json(novo);
+        } else {
+            res.status(404).json({ message: "Essa turma não existe!"})
+        }
     } catch (err) {
 
         res.status(500).json({ message: "Um erro aconteceu." })
@@ -49,7 +53,7 @@ router.post("/alunos", async (req, res) => {
 
 router.put("/alunos/:id", async (req, res) => {
 
-    const { nome, idade, matricula, telefone, dataNasc } = req.body
+    const { nome, idade, matricula, telefone, dataNasc, turmaId } = req.body
     const {id} = req.params
     const aluno =  await Aluno.findOne({ where: { id } })
 
